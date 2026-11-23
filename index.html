@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meet the team — Jobs &amp; professions</title>
+  <style>
+    :root {
+      --bg-page: #eceae4;
+      --bg-surface: #f5f4f0;
+      --bg-card: #f9f8f5;
+      --bg-muted: #e5e2da;
+      --ink-primary: #1e242b;
+      --ink-secondary: #525b66;
+      --accent: #2c4c63;
+      --accent-soft: #dce5ec;
+      --accent-warm: #7a5c3e;
+      --accent-warm-soft: #ebe3d8;
+      --border-subtle: #d5d1c7;
+      --success: #2a6f4b;
+      --success-bg: #dfece4;
+      --error: #9e3838;
+      --error-bg: #f3e0e0;
+      --shadow-sm: 0 2px 8px rgba(30, 36, 43, 0.06);
+      --shadow-md: 0 8px 24px rgba(30, 36, 43, 0.09);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--ink-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #243b4d 0%, #345269 100%);
+      color: #f5f4f0;
+      padding: 1.75rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-photo {
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid rgba(245, 244, 240, 0.35);
+      background-color: #1c2f3d;
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #f7f6f2;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #d3dde6;
+      margin-top: 0.15rem;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(20, 33, 43, 0.35);
+      padding: 0.35rem;
+      border-radius: 12px;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: #d7e0e8;
+      padding: 0.6rem 1.15rem;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(245, 244, 240, 0.12);
+      color: #ffffff;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-surface);
+      color: var(--accent);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1040px;
+      width: 100%;
+      margin: 1.75rem auto;
+      padding: 0 1.25rem;
+      flex: 1;
+    }
+
+    .section-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .section-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Header Bar */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+      background: var(--bg-surface);
+      padding: 0.9rem 1.15rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .toolbar-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--ink-secondary);
+      padding: 0.42rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pill-btn.active {
+      background: var(--accent);
+      color: #f5f4f0;
+      border-color: var(--accent);
+    }
+
+    /* Directory Grid */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 1rem;
+    }
+
+    .job-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+
+    .job-photo-wrap {
+      position: relative;
+      width: 100%;
+      height: 122px;
+      background-color: var(--bg-muted);
+      overflow: hidden;
+    }
+
+    .job-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .audio-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(30, 36, 43, 0.78);
+      color: #f5f4f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      backdrop-filter: blur(2px);
+    }
+
+    .job-info {
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .job-name {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-primary);
+    }
+
+    .article-tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 6px;
+    }
+
+    .tag-a {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .tag-an {
+      background: var(--accent-warm-soft);
+      color: var(--accent-warm);
+    }
+
+    /* Business Cards Practice Layout */
+    .practice-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .progress-bar-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      background: var(--bg-surface);
+      padding: 0.75rem 1.1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .score-pill {
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    /* Realistic Business Card */
+    .business-card {
+      background: linear-gradient(145deg, #f7f6f2 0%, #ebe8e0 100%);
+      border: 1px solid #cbc5b8;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-top-band {
+      height: 10px;
+      background: linear-gradient(90deg, #2c4c63 0%, #5a7b91 100%);
+    }
+
+    .card-body {
+      padding: 1.75rem;
+      display: grid;
+      grid-template-columns: 165px 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .portrait-box {
+      width: 165px;
+      height: 190px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid #dcd7cb;
+      box-shadow: var(--shadow-sm);
+      background: var(--bg-muted);
+    }
+
+    .portrait-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .company-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .person-name {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--ink-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .person-job-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      align-self: flex-start;
+    }
+
+    .card-divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 0.25rem 0;
+    }
+
+    .sentence-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.95rem 1.1rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .blank-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 58px;
+      height: 36px;
+      padding: 0 0.65rem;
+      border-radius: 8px;
+      border: 2px dashed var(--accent);
+      background: #efede7;
+      color: var(--accent);
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .blank-slot.filled-correct {
+      border-style: solid;
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .blank-slot.filled-wrong {
+      border-style: solid;
+      border-color: var(--error);
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    /* Choice Buttons */
+    .choices-row {
+      display: flex;
+      gap: 0.85rem;
+      margin-top: 0.35rem;
+    }
+
+    .choice-btn {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border-radius: 10px;
+      border: 2px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .choice-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .choice-btn:disabled {
+      cursor: default;
+      opacity: 0.75;
+    }
+
+    .feedback-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-height: 44px;
+      margin-top: 0.25rem;
+    }
+
+    .feedback-msg {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .feedback-msg.ok { color: var(--success); }
+    .feedback-msg.err { color: var(--error); }
+
+    .action-btns {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    .btn-listen, .btn-next {
+      border: none;
+      border-radius: 9px;
+      padding: 0.55rem 1rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .btn-listen {
+      background: var(--bg-muted);
+      color: var(--ink-primary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-listen:hover {
+      background: #dad5c9;
+    }
+
+    .btn-next {
+      background: var(--accent);
+      color: #f5f4f0;
+      display: none;
+    }
+
+    .btn-next.visible {
+      display: inline-block;
+    }
+
+    .btn-next:hover {
+      background: #213a4c;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.25rem 1.75rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      display: none;
+    }
+
+    .summary-card.active {
+      display: block;
+    }
+
+    .summary-score {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0.5rem 0;
+    }
+
+    .btn-restart {
+      margin-top: 1.25rem;
+      background: var(--accent);
+      color: #f5f4f0;
+      border: none;
+      padding: 0.75rem 1.6rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-restart:hover {
+      background: #213a4c;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1.35rem 1rem;
+      margin-top: 2.5rem;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 640px) {
+      .card-body {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .portrait-box {
+        margin: 0 auto;
+        width: 150px;
+        height: 170px;
+      }
+      .person-job-badge {
+        align-self: center;
+      }
+      .sentence-box {
+        justify-content: center;
+        font-size: 1.12rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <img
+          class="brand-photo"
+          src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=200&q=80"
+          alt="Business team"
+        />
+        <div>
+          <h1>Meet the team</h1>
+          <div class="subtitle">Jobs, professions &amp; business cards</div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Main sections">
+        <button class="tab-btn active" data-tab="directory">1. Jobs directory</button>
+        <button class="tab-btn" data-tab="cards">2. Business cards</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- TAB 1: JOBS DIRECTORY -->
+    <section id="tab-directory" class="section-panel active">
+      <div class="toolbar">
+        <div class="toolbar-title">Click any card to listen</div>
+        <div class="filter-group">
+          <button class="pill-btn active" data-filter="all">All (30)</button>
+          <button class="pill-btn" data-filter="a">a + job</button>
+          <button class="pill-btn" data-filter="an">an + job</button>
+        </div>
+      </div>
+
+      <div class="jobs-grid" id="jobsGrid"></div>
+    </section>
+
+    <!-- TAB 2: BUSINESS CARDS PRACTICE -->
+    <section id="tab-cards" class="section-panel">
+      <div class="practice-wrapper">
+        <div class="progress-bar-wrap" id="progressBar">
+          <span id="cardCounter">Card 1 of 10</span>
+          <span class="score-pill" id="scoreDisplay">Score: 0</span>
+        </div>
+
+        <div class="business-card" id="businessCard">
+          <div class="card-top-band"></div>
+          <div class="card-body">
+            <div class="portrait-box">
+              <img id="cardPhoto" src="" alt="Professional portrait" />
+            </div>
+
+            <div class="card-details">
+              <div class="company-label" id="companyName">GLOBAL CORP</div>
+              <div class="person-name" id="personName">Luis</div>
+              <div class="person-job-badge">
+                <strong id="personJobLabel">Engineer</strong>
+              </div>
+
+              <div class="card-divider"></div>
+
+              <div class="sentence-box" id="sentenceBox">
+                <span id="sentenceSubject">Luis is</span>
+                <span class="blank-slot" id="blankSlot">___</span>
+                <span id="sentenceJob">engineer.</span>
+              </div>
+
+              <div class="choices-row">
+                <button class="choice-btn" id="btnChoiceA" onclick="checkAnswer('a')">a</button>
+                <button class="choice-btn" id="btnChoiceAn" onclick="checkAnswer('an')">an</button>
+              </div>
+
+              <div class="feedback-row">
+                <div class="feedback-msg" id="feedbackMsg"></div>
+                <div class="action-btns">
+                  <button class="btn-listen" id="btnSpeakCard" onclick="speakCurrentSentence()">🔊 Listen</button>
+                  <button class="btn-next" id="btnNextCard" onclick="nextCard()">Next →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-card" id="summaryCard">
+          <div class="company-label">Session complete</div>
+          <div class="summary-score" id="finalScore">10 / 10</div>
+          <p style="color: var(--ink-secondary); font-weight: 600;">Great work introducing the team.</p>
+          <button class="btn-restart" onclick="startNewDeck()">Practice new cards</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Teacher Verónica Hermida
+  </footer>
+
+  <script>
+    const JOBS = [
+      { title: "Accountant", article: "an", photo: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=500&q=80" },
+      { title: "Actor", article: "an", photo: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=500&q=80" },
+      { title: "Architect", article: "an", photo: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=80" },
+      { title: "Astronomer", article: "an", photo: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=500&q=80" },
+      { title: "Baker", article: "a", photo: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80" },
+      { title: "Bricklayer", article: "a", photo: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80" },
+      { title: "Bus driver", article: "a", photo: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=500&q=80" },
+      { title: "Butcher", article: "a", photo: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=500&q=80" },
+      { title: "Carpenter", article: "a", photo: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=500&q=80" },
+      { title: "Chef", article: "a", photo: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=500&q=80" },
+      { title: "Cleaner", article: "a", photo: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=80" },
+      { title: "Dentist", article: "a", photo: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=500&q=80" },
+      { title: "Designer", article: "a", photo: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=500&q=80" },
+      { title: "Doctor", article: "a", photo: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500&q=80" },
+      { title: "Electrician", article: "an", photo: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=500&q=80" },
+      { title: "Engineer", article: "an", photo: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=500&q=80" },
+      { title: "Factory worker", article: "a", photo: "https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=500&q=80" },
+      { title: "Farmer", article: "a", photo: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=500&q=80" },
+      { title: "Fireman", article: "a", photo: "https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?auto=format&fit=crop&w=500&q=80" },
+      { title: "Florist", article: "a", photo: "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=500&q=80" },
+      { title: "Gardener", article: "a", photo: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=80" },
+      { title: "Hairdresser", article: "a", photo: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=500&q=80" },
+      { title: "Journalist", article: "a", photo: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=500&q=80" },
+      { title: "Judge", article: "a", photo: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=500&q=80" },
+      { title: "Lawyer", article: "a", photo: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=500&q=80" },
+      { title: "Lecturer", article: "a", photo: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500&q=80" },
+      { title: "Librarian", article: "a", photo: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=500&q=80" },
+      { title: "Lifeguard", article: "a", photo: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=500&q=80" },
+      { title: "Mechanic", article: "a", photo: "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&w=500&q=80" },
+      { title: "Model", article: "a", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80" }
+    ];
+
+    const BUSINESS_CARDS_POOL = [
+      { name: "Luis", company: "APEX TECH", job: "Engineer", article: "an", photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80" },
+      { name: "Sofia", company: "METRO AUDIT", job: "Accountant", article: "an", photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" },
+      { name: "Carlos", company: "URBAN STUDIO", job: "Architect", article: "an", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80" },
+      { name: "Elena", company: "CITY HOSPITAL", job: "Doctor", article: "a", photo: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80" },
+      { name: "David", company: "VOLT SYSTEMS", job: "Electrician", article: "an", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80" },
+      { name: "Valeria", company: "LEGAL PARTNERS", job: "Lawyer", article: "a", photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80" },
+      { name: "Mateo", company: "GRAND BISTRO", job: "Chef", article: "a", photo: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=500&q=80" },
+      { name: "Camila", company: "NOVA MEDIA", job: "Designer", article: "a", photo: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?auto=format&fit=crop&w=500&q=80" },
+      { name: "Daniel", company: "STAGE ONE", job: "Actor", article: "an", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80" },
+      { name: "Paula", company: "SMILE CLINIC", job: "Dentist", article: "a", photo: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=500&q=80" },
+      { name: "Diego", company: "DAILY NEWS", job: "Journalist", article: "a", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=500&q=80" },
+      { name: "Andrea", company: "SKY OBSERVATORY", job: "Astronomer", article: "an", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80" },
+      { name: "Jorge", company: "AUTO PRO", job: "Mechanic", article: "a", photo: "https://images.unsplash.com/photo-1537511446984-935f663eb1f4?auto=format&fit=crop&w=500&q=80" },
+      { name: "Lucia", company: "STATE UNIVERSITY", job: "Lecturer", article: "a", photo: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=500&q=80" },
+      { name: "Marco", company: "ARTISAN BAKERY", job: "Baker", article: "a", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80" }
+    ];
+
+    function speakText(text) {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.92;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /* Render Directory */
+    const jobsGrid = document.getElementById("jobsGrid");
+    function renderJobs(filter = "all") {
+      jobsGrid.innerHTML = "";
+      const filtered = filter === "all" ? JOBS : JOBS.filter(j => j.article === filter);
+      filtered.forEach(job => {
+        const card = document.createElement("div");
+        card.className = "job-card";
+        const phrase = `${job.article} ${job.title.toLowerCase()}`;
+        card.onclick = () => speakText(phrase);
+        card.innerHTML = `
+          <div class="job-photo-wrap">
+            <img class="job-photo" src="${job.photo}" alt="${job.title}" loading="lazy" />
+            <div class="audio-badge" title="Listen">🔊</div>
+          </div>
+          <div class="job-info">
+            <div class="job-name">${job.title}</div>
+            <span class="article-tag ${job.article === "an" ? "tag-an" : "tag-a"}">${phrase}</span>
+          </div>
+        `;
+        jobsGrid.appendChild(card);
+      });
+    }
+
+    /* Directory Filter Pills */
+    document.querySelectorAll(".pill-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderJobs(btn.dataset.filter);
+      });
+    });
+
+    /* Navigation Tabs */
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".section-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    /* Business Cards Deck Logic */
+    let deck = [];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startNewDeck() {
+      deck = shuffle(BUSINESS_CARDS_POOL).slice(0, 10);
+      currentIndex = 0;
+      score = 0;
+      answered = false;
+      document.getElementById("summaryCard").classList.remove("active");
+      document.getElementById("businessCard").style.display = "block";
+      document.getElementById("progressBar").style.display = "flex";
+      updateScore();
+      renderCard();
+    }
+
+    function updateScore() {
+      document.getElementById("scoreDisplay").textContent = `Score: ${score}`;
+      document.getElementById("cardCounter").textContent = `Card ${currentIndex + 1} of ${deck.length}`;
+    }
+
+    function renderCard() {
+      answered = false;
+      const item = deck[currentIndex];
+      document.getElementById("cardPhoto").src = item.photo;
+      document.getElementById("companyName").textContent = item.company;
+      document.getElementById("personName").textContent = item.name;
+      document.getElementById("personJobLabel").textContent = item.job;
+      document.getElementById("sentenceSubject").textContent = `${item.name} is`;
+      document.getElementById("sentenceJob").textContent = `${item.job.toLowerCase()}.`;
+
+      const slot = document.getElementById("blankSlot");
+      slot.textContent = "___";
+      slot.className = "blank-slot";
+
+      document.getElementById("feedbackMsg").textContent = "";
+      document.getElementById("feedbackMsg").className = "feedback-msg";
+      document.getElementById("btnChoiceA").disabled = false;
+      document.getElementById("btnChoiceAn").disabled = false;
+      document.getElementById("btnNextCard").classList.remove("visible");
+      updateScore();
+    }
+
+    function checkAnswer(choice) {
+      if (answered) return;
+      answered = true;
+      const item = deck[currentIndex];
+      const slot = document.getElementById("blankSlot");
+      const fb = document.getElementById("feedbackMsg");
+
+      document.getElementById("btnChoiceA").disabled = true;
+      document.getElementById("btnChoiceAn").disabled = true;
+      slot.textContent = choice;
+
+      const fullSentence = `${item.name} is ${item.article} ${item.job.toLowerCase()}.`;
+
+      if (choice === item.article) {
+        score++;
+        slot.classList.add("filled-correct");
+        fb.textContent = `✓ ${fullSentence}`;
+        fb.classList.add("ok");
+      } else {
+        slot.classList.add("filled-wrong");
+        fb.textContent = `✗ ${fullSentence}`;
+        fb.classList.add("err");
+      }
+
+      updateScore();
+      document.getElementById("btnNextCard").classList.add("visible");
+    }
+
+    function speakCurrentSentence() {
+      const item = deck[currentIndex];
+      speakText(`${item.name} is ${item.article} ${item.job.toLowerCase()}.`);
+    }
+
+    function nextCard() {
+      currentIndex++;
+      if (currentIndex < deck.length) {
+        renderCard();
+      } else {
+        document.getElementById("businessCard").style.display = "none";
+        document.getElementById("progressBar").style.display = "none";
+        document.getElementById("finalScore").textContent = `${score} / ${deck.length}`;
+        document.getElementById("summaryCard").classList.add("active");
+      }
+    }
+
+    renderJobs();
+    startNewDeck();
+  </script>
+</body>
+</html>
